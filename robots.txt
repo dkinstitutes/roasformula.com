@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://fancynamer.com/sitemap.xml
+Sitemap: https://roas-formula.com/sitemap.xml
