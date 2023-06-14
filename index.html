@@ -121,7 +121,7 @@
     </div>
     <hr/>
     <!-- Add this code wherever you want to display the install button -->
-    <!-- <button id="installButton" class="text-center btn btn-primary">Install</button> -->
+    <button id="installButton" class="text-center btn btn-primary">Install</button>
 
 
     <div>
@@ -161,7 +161,7 @@
         </div>
       </div>
 
-      <!-- <script>
+      <script>
         let deferredPrompt;
       
         window.addEventListener('beforeinstallprompt', (event) => {
@@ -205,46 +205,7 @@
       
           return false; // The app is not installed
         }
-      </script> -->
-
-      <script>
-        let deferredPrompt;
-        let isAppInstalled = false;
-      
-        window.addEventListener('beforeinstallprompt', (event) => {
-          event.preventDefault();
-          deferredPrompt = event;
-      
-          // Show the install prompt if the app isn't already installed
-          if (!isAppInstalled) {
-            setTimeout(() => {
-              showInstallPrompt();
-            }, 5000);
-          }
-        });
-      
-        // Check if the app is already installed
-        window.addEventListener('appinstalled', () => {
-          isAppInstalled = true;
-        });
-      
-        // Show the install prompt
-        function showInstallPrompt() {
-          if (deferredPrompt) {
-            deferredPrompt.prompt();
-      
-            deferredPrompt.userChoice.then((choiceResult) => {
-              if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the install prompt');
-              } else {
-                console.log('User dismissed the install prompt');
-              }
-      
-              deferredPrompt = null;
-            });
-          }
-        }
-      </script>  
+      </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script async src="https://static.addtoany.com/menu/page.js"></script>
     <script src="script.js"></script>
