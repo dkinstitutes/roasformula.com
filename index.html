@@ -162,9 +162,9 @@
       </div>
       
       <script>
-        let deferredPrompt;
+        var deferredPrompt;
       
-        window.addEventListener('beforeinstallprompt', (event) => {
+        window.addEventListener('beforeinstallprompt', function(event) {
           event.preventDefault();
           deferredPrompt = event;
       
@@ -177,11 +177,11 @@
         });
       
         // Handle install button click
-        document.getElementById('installButton').addEventListener('click', () => {
+        document.getElementById('installButton').addEventListener('click', function() {
           if (deferredPrompt) {
             deferredPrompt.prompt();
       
-            deferredPrompt.userChoice.then((choiceResult) => {
+            deferredPrompt.userChoice.then(function(choiceResult) {
               if (choiceResult.outcome === 'accepted') {
                 console.log('User accepted the install prompt');
               } else {
@@ -196,16 +196,7 @@
       
         // Check if the app is already installed
         function isAppInstalled() {
-          if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) {
-            return true; // The app is already installed
-          }
-      
-          // Check if the app is installed using older methods
-          if (window.matchMedia('(display-mode: fullscreen)').matches) {
-            return true; // The app is already installed
-          }
-      
-          return false; // The app is not installed
+          return (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone || window.matchMedia('(display-mode: fullscreen)').matches);
         }
       
         // Show notification to the user
@@ -214,6 +205,7 @@
           alert(message);
         }
       </script>
+      
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script async src="https://static.addtoany.com/menu/page.js"></script>
     <script src="script.js"></script>
