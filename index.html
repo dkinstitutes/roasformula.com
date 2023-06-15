@@ -162,19 +162,58 @@
       </div>
       
       <script>
-        const installPrompt = pwaInstall({
-          button: document.getElementById('installButton'),
-          promptOnLoad: false, // Delay showing the install prompt until triggered manually
-          // Add more options as needed
+        let deferredPrompt;
+      
+        window.addEventListener('beforeinstallprompt', (event) => {
+          event.preventDefault();
+          deferredPrompt = event;
+      
+          // Show the install button if the app isn't already installed
+          if (!isAppInstalled()) {
+            document.getElementById('installButton').style.display = 'block';
+          } else {
+            showNotification('App Already Installed');
+          }
         });
       
         // Handle install button click
-        installPrompt.addEventListener('click', () => {
-          installPrompt.showPrompt();
-        });
-      </script>
+        document.getElementById('installButton').addEventListener('click', () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
       
-      <script src="https://cdn.jsdelivr.net/npm/pwa-install/dist/pwa-install.min.js"></script>
+            deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+              } else {
+                console.log('User dismissed the install prompt');
+              }
+      
+              // Reset the deferred prompt
+              deferredPrompt = null;
+            });
+          }
+        });
+      
+        // Check if the app is already installed
+        function isAppInstalled() {
+          if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) {
+            return true; // The app is already installed
+          }
+      
+          // Check if the app is installed using older methods
+          if (window.matchMedia('(display-mode: fullscreen)').matches) {
+            return true; // The app is already installed
+          }
+      
+          return false; // The app is not installed
+        }
+      
+        // Show notification to the user
+        function showNotification(message) {
+          // Replace this with your actual notification implementation
+          alert(message);
+        }
+      </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script async src="https://static.addtoany.com/menu/page.js"></script>
     <script src="script.js"></script>
